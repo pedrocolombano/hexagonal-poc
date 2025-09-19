@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,17 @@ public class TarotRepositoryAdapter implements TarotRepositoryPort {
                           .retrieve()
                           .bodyToMono(TarotResponse.class)
                           .flatMapMany(t -> Flux.fromIterable(t.getCards()))
+                          .map(mapper::fromDto);
+    }
+
+    @Override
+    public Mono<TarotCard> getRandomCard() {
+        return tarotClient.get()
+                          .uri("/cards/random?n=1")
+                          .retrieve()
+                          .bodyToMono(TarotResponse.class)
+                          .flatMap(t -> Flux.fromIterable(t.getCards())
+                                                         .next())
                           .map(mapper::fromDto);
     }
 }
