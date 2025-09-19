@@ -1,4 +1,4 @@
-package br.com.colombano.hexagonalpoc.domain.model;
+package br.com.colombano.hexagonalpoc.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TarotCard {
+public class TarotCardDto {
 
-    private String type;
     private String name;
-    private String description;
+    private String type;
 
 }

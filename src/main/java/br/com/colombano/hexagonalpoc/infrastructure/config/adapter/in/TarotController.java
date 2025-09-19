@@ -1,7 +1,8 @@
 package br.com.colombano.hexagonalpoc.infrastructure.config.adapter.in;
 
+import br.com.colombano.hexagonalpoc.application.dto.TarotCardDto;
+import br.com.colombano.hexagonalpoc.application.mapper.TarotApplicationMapper;
 import br.com.colombano.hexagonalpoc.application.service.TarotService;
-import br.com.colombano.hexagonalpoc.domain.model.TarotCard;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,12 @@ import reactor.core.publisher.Flux;
 public class TarotController {
 
     private final TarotService tarotService;
+    private final TarotApplicationMapper mapper;
 
     @GetMapping
-    public Flux<TarotCard> getCards() {
-        return tarotService.getCards();
+    public Flux<TarotCardDto> getCards() {
+        return tarotService.getCards()
+                           .map(mapper::fromDomain);
     }
 
 }
